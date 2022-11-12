@@ -1,4 +1,4 @@
-const express = require('express'); // load express
+import express from 'express'; // load express
 import cors from 'cors'
 
 
