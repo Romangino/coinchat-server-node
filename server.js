@@ -1,5 +1,6 @@
 import express from 'express'; // load express
-import cors from 'cors'
+import cors from 'cors';
+import SearchController from "./Controller/SearchPageControllers/SearchController.js";
 
 
 const app = express();
@@ -10,4 +11,7 @@ app.use(express.json());
 app.get('/hello',(req, res) =>  // respond HTTP GET
     res.send('hello world'));      // "hello world"
 
-app.listen(process.env.PORT || 3000);
+SearchController(app)
+
+
+app.listen(process.env.PORT || 4000);
