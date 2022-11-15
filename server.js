@@ -1,6 +1,7 @@
 import express from 'express'; // load express
 import cors from 'cors';
 import SearchController from "./Controller/SearchPageControllers/SearchController.js";
+import DetailsController from "./Controller/DetailPageControllers/CoinDetailsController.js";
 
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(express.json());
 app.get('/hello',(req, res) =>  // respond HTTP GET
     res.send('hello world'));      // "hello world"
 
-SearchController(app)
-
+SearchController(app);
+DetailsController(app);
 
 app.listen(process.env.PORT || 4000);
