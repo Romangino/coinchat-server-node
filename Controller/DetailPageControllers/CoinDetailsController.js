@@ -2,13 +2,13 @@ import axios from "axios";
 const coinGecko_GetCurrentData_API = "https://api.coingecko.com/api/v3/coins/"
 
 
-const DetailsController = (app) => {
+const DetailsController =  (app) => {
 
-    function getCoinData(req, res) {
-        const query = req.query.coinID;
+    async function getCoinData(req, res) {
+        const coinID = req.query.coinID;
 
         // Temporarily set the local to en
-        axios.get(`${coinGecko_GetCurrentData_API}${query}?localization=false`)
+        await axios.get(`${coinGecko_GetCurrentData_API}${coinID}?localization=false`)
             .then((response) => {
                 res.json(response.data);
             })
