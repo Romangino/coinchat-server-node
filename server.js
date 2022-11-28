@@ -1,8 +1,8 @@
 import express from 'express'; // load express
 import cors from 'cors';
-import SearchController from "./Controller/SearchPageControllers/SearchController.js";
-import DetailsController from "./Controller/DetailPageControllers/CoinDetailsController.js";
-import MarketChartController from "./Controller/DetailPageControllers/CoinMarketController.js";
+import SearchController from "./controllers/search-page-controllers/search-controller.js";
+import DetailsController from "./controllers/detail-page-controllers/coin-details-controller.js";
+import MarketChartController from "./controllers/detail-page-controllers/coin-market-controller.js";
 
 
 const app = express();
