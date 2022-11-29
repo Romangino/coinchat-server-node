@@ -35,8 +35,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/hello',(req, res) =>  // respond HTTP GET
-    res.send('hello world'));      // "hello world"
+app.get('/',(req, res) =>
+    res.send('Coinchat Node Server'));
 
 SearchController(app);
 DetailsController(app);
