@@ -36,11 +36,11 @@ mongoose.connect(connectionString, options);
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000'
+    origin: true
 }));
 app.use(session({
     secret: `${DB_PASSWORD}`,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: {secure: false}
 }));
