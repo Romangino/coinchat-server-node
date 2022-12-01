@@ -1,9 +1,8 @@
 import * as dao from '../users/users-dao.js';
-import {findByCredentials, findByUsername} from "../users/users-dao.js";
 
 let currentUser = null;
 
-const usersController = app => {
+const UsersController = app => {
     const createUser = async (req, res) => {
         const user = req.body
         const actualUser = await dao.createUser(user)
@@ -11,14 +10,14 @@ const usersController = app => {
     };
     const register = async (req, res) => {
         const user = req.body;
-        const existingUser = await findByUsername(user.handle);
-        if (existingUser) {
-            res.sendStatus(403);
+        const existingUser = await dao.findUserByUsername(user.email);
+        if (existingUser) {  // email not unique -> already existing
+            res.sendStatus(403);  // TODO: handle 403 in client!
             return;
         } else {
-            const actualUser = await dao.createUser(user);
-            currentUser = actualUser;
-            res.json(actualUser);
+            const currentUser = await dao.createUser(user);
+            req.session['currentUser'] = currentUser;
+            res.json(currentUser);
         }
     };
     const findAllUsers = async (req, res) => {
@@ -38,13 +37,13 @@ const usersController = app => {
     };
     const login = async (req, res) => {
         const credentials = req.body;
-        const existingUser = await findByCredentials(credentials.email, credentials.password);
-        if (!existingUser) {
-            res.sendStatus(403);
-            return;
-        } else {
-            currentUser = existingUser;
+        const existingUser = await dao.findByCredentials(credentials);
+        if (existingUser) {
+            req.session['currentUser'] = existingUser;
             res.json(existingUser);
+            return;
+        } else {  // TODO: handle 403 in client!
+            res.sendStatus(403);
         }
     };
     const profile = async (req, res) => {
@@ -69,4 +68,4 @@ const usersController = app => {
     app.post('/profile', profile);
     app.post('/logout', logout);
 };
-export default usersController;
+export default UsersController;
