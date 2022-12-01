@@ -19,7 +19,7 @@ const options = {
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 45000,
     family: 4
-}
+};
 // build the connection string
 const PROTOCOL = "mongodb+srv";
 const DB_USERNAME = process.env.DB_USERNAME;
