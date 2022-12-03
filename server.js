@@ -8,6 +8,7 @@ import DetailsController from "./controllers/detail-page-controllers/coin-detail
 import MarketChartController from "./controllers/detail-page-controllers/coin-market-controller.js";
 import WatchlistController from "./watchlists/watchlist-controller.js";
 import UsersController from "./controllers/users-controller.js";
+import HomeController  from "./controllers/home-page-controller/home-controller.js";
 
 // Allows a .env file to be created to store environment variables
 dotenv.config()
@@ -54,5 +55,6 @@ SearchController(app);
 DetailsController(app);
 MarketChartController(app);
 WatchlistController(app);
+HomeController(app);
 
 app.listen(process.env.PORT || 4000);
