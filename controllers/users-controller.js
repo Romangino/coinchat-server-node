@@ -8,7 +8,7 @@ const UsersController = app => {
     app.get('/api/users', findAllUsers);
     app.delete('/api/users/:uid', deleteUser);
     app.put('/api/users/:uid', updateUser);
-    app.get('/api/users/loginEmail', loginEmail)
+    app.post('/api/users/loginEmail', loginEmail);
     app.post('/api/users/login', login);
     app.post('/api/users/profile', profile);
     app.post('/api/users/logout', logout);
@@ -51,7 +51,7 @@ const loginEmail = async (req, res) => {
     if (existingUser) {
         res.sendStatus(200);
         return;
-    } else {  // TODO: handle 403 in client!
+    } else {
         res.sendStatus(404);
     }
 };
