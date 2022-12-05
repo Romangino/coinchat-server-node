@@ -6,6 +6,7 @@ const UsersController = app => {
     app.post('/api/users', createUser);
     app.post('/api/users/register', register)
     app.get('/api/users', findAllUsers);
+    app.get('/api/users/:uid', findUserById)
     app.delete('/api/users/:uid', deleteUser);
     app.put('/api/users/:uid', updateUser);
     app.post('/api/users/loginEmail', loginEmail);
@@ -78,4 +79,13 @@ const logout = (req, res) => {
     currentUser = null;
     res.sendStatus(200);
 };
+const findUserById = async (req, res) => {
+    const uid = req.params.uid
+    const user = await dao.findUserById(uid)
+    if (user) {
+        res.json(user)
+        return
+    }
+    res.sendStatus(404)
+}
 export default UsersController;
