@@ -1,10 +1,10 @@
 import followModel from "./follow-model.js";
 
-export const userFollowsUser = (uid, ouid) =>
-    followModel.create({follower: uid, followee: ouid})
+export const userFollowsUser = (follow) =>
+    followModel.create(follow)
 
-export const userUnfollowsUser = (uid, ouid) =>
-    followModel.deleteOne({follower: uid, followee: ouid})
+export const userUnfollowsUser = (fid) =>
+    followModel.deleteOne({_id: fid})
 
 export const findUsersFollowingUser = (uid) =>
     followModel.find({followee: uid})
