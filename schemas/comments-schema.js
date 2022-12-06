@@ -4,12 +4,13 @@ const { Schema } = mongoose;
 const commentSchema = Schema({
     // default id is the comment ID
     authorID: {type: Schema.Types.ObjectId, ref: 'UsersModel', required: true},  // Same as objectID in user collection
-    coinID: {type: String, required: true},    //  Same as coingecko coin ID
-    detailContent: {type: String, required: true},    //  content of this comment
-    likes: {type: Number, required: true, default: 0},   //  like numbers
-    dislikes: {type: Number, required: true, default: 0},   // dislike numbers
+    objectID: {type: String, required: true},    //  Comment object ID base on object type could be coin ID or post ID
+    objectType: {type: String, required: true, enum: ["Coin", "Post"]},   // Comment object type
+    detailContent: {type: String, required: true},    //  Content of this comment
+    likes: {type: Number, required: true, default: 0},   //  Like numbers
+    dislikes: {type: Number, required: true, default: 0},   // Dislike numbers
     },
-    { timestamps: true },{collection: 'comments'}
+    {collection: 'comments',  timestamps: true}
 )
 
 export default commentSchema

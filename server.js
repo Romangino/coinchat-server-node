@@ -9,6 +9,7 @@ import MarketChartController from "./controllers/detail-page-controllers/coin-ma
 import WatchlistController from "./watchlists/watchlist-controller.js";
 import UsersController from "./controllers/users-controller.js";
 import HomeController  from "./controllers/home-page-controller/home-controller.js";
+import CommentsController from "./controllers/comment-controller.js";
 import FollowController from "./follows/follow-controller.js";
 
 // Allows a .env file to be created to store environment variables
@@ -57,6 +58,7 @@ DetailsController(app);
 MarketChartController(app);
 WatchlistController(app);
 HomeController(app);
+CommentsController(app);
 FollowController(app);
 
 app.listen(process.env.PORT || 4000);
