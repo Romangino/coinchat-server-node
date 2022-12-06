@@ -1,4 +1,4 @@
-import express from "express"; // load express
+import express from "express";
 import cors from "cors";
 import session from "express-session"
 import mongoose from "mongoose";
@@ -39,11 +39,11 @@ mongoose.connect(connectionString, options);
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: 'http://localhost:3000'
 }));
 app.use(session({
-    secret: `${DB_PASSWORD}`,
-    resave: true,
+    secret: 'should be an environment variable',
+    resave: false,
     saveUninitialized: true,
     cookie: {secure: false}
 }));
