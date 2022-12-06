@@ -1,4 +1,4 @@
-import * as watchlistDao from './watchlist-dao.js'
+import * as watchlistDao from '../daos/watchlist-dao.js'
 
 const findUserWatchlist = async (req, res) => {
     const uid = req.params.uid
