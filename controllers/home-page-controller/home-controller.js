@@ -38,7 +38,7 @@ const HomeController = (app) => {
                 console.log(error)
             });
     }
-    app.get("/home/trendingCoins", getTrendingCoins)
+    app.get("/api/home/trendingCoins", getTrendingCoins)
 
 }
 export default HomeController
