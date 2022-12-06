@@ -6,7 +6,8 @@ const usersWatchlistSchema = Schema({
     userID: {type: Schema.Types.ObjectId, ref: 'UsersModel', required: true},  // User ID
     coinIDList:[{type: String}],  // an array of coinID, same as ID return from Coingecko
     },
-    { timestamps: true },{collection: 'user-watchlist-schema'}
+    {collection: 'user-watchlist-schema'},
+    { timestamps: true }
 )
 
 export default usersWatchlistSchema
