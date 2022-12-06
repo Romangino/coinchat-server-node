@@ -15,6 +15,7 @@ const usersSchema = mongoose.Schema({
     countryCode: {type: Number, required: false, unique: false},
     number: {type: Number, required: false, unique: true},
     password: {type: String, required: true, unique: false},
-    type: {type: String, required: true, unique: false, enum: ['PRSN', 'PRO', 'ADMIN']}
+    role: {type: String, required: true, unique: false,
+        enum: ['PERSONAL', 'PROFESSIONAL', 'ADMIN']}
 }, {collection: 'users'});
 export default usersSchema;
