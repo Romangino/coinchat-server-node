@@ -15,3 +15,6 @@ export const findUsersFollowedByUser = (uid) =>
     followModel.find({follower: uid})
         .populate('followee')
         .exec()
+
+export const findFollowId = (uid, ouid) =>
+    followModel.findOne({followee: ouid, follower: uid})
