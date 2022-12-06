@@ -1,4 +1,4 @@
-import watchlistModel from "./watchlist-model.js";
+import watchlistModel from "../database-model/watchlist-model.js";
 
 export const findUserWatchlist = (uid) =>
     watchlistModel.find({uid: uid})
