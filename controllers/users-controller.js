@@ -52,12 +52,6 @@ const UsersController = app => {
         } else {
             res.sendStatus(403)
         }
-        // if (req.session['currentUser']) {
-        //     res.send(req.session['currentUser']);
-        //     return;
-        // } else {
-        //     res.sendStatus(403);
-        // }
     };
     const logout = (req, res) => {
         req.session.destroy();
