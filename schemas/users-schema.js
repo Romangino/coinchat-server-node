@@ -9,7 +9,7 @@ const usersSchema = mongoose.Schema({
     city: {type: String, required: false, unique: false},
     address: {type: String, required: false, unique: false},
     website: {type: String, required: false, unique: true},
-    birthday: {type: Date, required: false, unique: false},
+    birthday: {type: Date, required: true, unique: false},
     email: {type: String, required: true, unique: true},
     handle: {type: String, required: true, unique: true},
     countryCode: {type: Number, required: false, unique: false},
