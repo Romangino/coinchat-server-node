@@ -1,4 +1,4 @@
-import * as usersDao from '../users/users-dao.js';
+import * as usersDao from '../daos/users-dao.js';
 
 const UsersController = app => {
     const createUser = async (req, res) => {
