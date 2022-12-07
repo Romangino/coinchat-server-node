@@ -44,13 +44,20 @@ const UsersController = app => {
             res.sendStatus(403);
         }
     };
-    const profile = (req, res) => {
-        if (req.session['currentUser']) {
-            res.send(req.session['currentUser']);
-            return;
+    const profile = async (req, res) => {
+        const currentUser = req.session['currentUser']
+        if (currentUser) {
+            const currentProfile = await usersDao.findUserById(currentUser._id)
+            res.json(currentProfile)
         } else {
-            res.sendStatus(403);
+            res.sendStatus(403)
         }
+        // if (req.session['currentUser']) {
+        //     res.send(req.session['currentUser']);
+        //     return;
+        // } else {
+        //     res.sendStatus(403);
+        // }
     };
     const logout = (req, res) => {
         req.session.destroy();
