@@ -39,8 +39,15 @@ async function findUserByAuthorID(req, res) {
     )
 }
 
-function deleteComment() {
-
+async function deleteComment(req, res) {
+    const commentID = req.query.commentID;
+    await dao.deleteComment(commentID).then(
+        (thisRes) => {
+            res.json(thisRes)
+        }
+    ).catch(
+        (err) => console.log(err)
+    )
 }
 
 function updateComment() {
