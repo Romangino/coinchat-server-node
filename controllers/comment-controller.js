@@ -32,7 +32,7 @@ async function findUserByObjectID(req, res) {
 
 const findCommentsByAuthorID = async (req, res) =>
     await dao.findCommentsByAuthorID(req.params.uid)
-        .then(user => res.json(user))
+        .then(comments => res.json(comments))
 
 
 async function deleteComment(req, res) {
