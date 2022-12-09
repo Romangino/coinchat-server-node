@@ -18,21 +18,21 @@ async function findAllComment(req, res) {
     )
 }
 
-async function findUserByObjectID(req, res) {
+async function findCommentByObjectID(req, res) {
     const objID = req.query.objID;
     const objType = req.query.objType;
 
 
-    await dao.findUserByObjectID(objID, objType).then(
+    await dao.findCommentByObjectID(objID, objType).then(
         (thisRes) => {
             res.json(thisRes)
         }
     )
 }
 
-async function findUserByAuthorID(req, res) {
+async function findCommentByAuthorID(req, res) {
     const authorID = req.query.authorID;
-    await dao.findUserByAuthorID(authorID).then(
+    await dao.findCommentByAuthorID(authorID).then(
         (thisRes) => {
             res.json(thisRes)
         }
@@ -50,17 +50,52 @@ async function deleteComment(req, res) {
     )
 }
 
-function updateComment() {
+async function updateComment() {
+    // get comment current document
 
+}
+
+async function createNewUCRecord(req, res) {
+    const newUCRecord = req.body;
+    const commentID = req.body.commentID;
+    const reaction = req.body.reactionType;
+    await dao.createNewUCRecord(newUCRecord).then(
+        async (thisRes) => {
+            await dao.updateComment(commentID, {$inc: {likes: reaction}})
+            res.sendStatus(200);
+        }
+    )
+}
+
+async function findAllUCRecord(req, res) {
+    await dao.findAllUCRecord().then(
+
+        (thisRes) => {
+            res.json(thisRes)
+        }
+    )
+}
+
+async function findUCRecordByUserID(req, res) {
+    const uid = req.query.uid;
+    await dao.findUCRecordByUserID(uid).then(
+        (thisRes) => {
+            res.json(thisRes)
+        }
+    )
 }
 
 const CommentsController = app => {
     app.post("/api/comment", createNewComment)
     app.get("/api/comment/all", findAllComment)
-    app.get("/api/comment/object", findUserByObjectID)
-    app.get("/api/comment/author", findUserByAuthorID)
+    app.get("/api/comment/object", findCommentByObjectID)
+    app.get("/api/comment/author", findCommentByAuthorID)
     app.delete("/api/comment", deleteComment)
-    app.put("/api/comment", updateComment)
+    // app.put("/api/comment", updateComment)
+
+    app.post("/api/comment/react", createNewUCRecord)
+    app.get("/api/comment/react/all", findAllUCRecord)
+    app.get("/api/comment/react/uid", findUCRecordByUserID)
 
 }
 
