@@ -46,7 +46,10 @@ async function findCommentByAuthorID(req, res) {
 async function deleteComment(req, res) {
     const commentID = req.query.commentID;
     await dao.deleteComment(commentID).then(
-        (thisRes) => {
+        async (thisRes) => {
+            // delete all reaction records pertain to the comment
+            await dao.deleteReactionByCommentID(commentID)
+
             res.json(thisRes)
         }
     ).catch(
@@ -54,10 +57,10 @@ async function deleteComment(req, res) {
     )
 }
 
-async function updateComment() {
-    // get comment current document
-
-}
+// async function updateComment() {
+//     // get comment current document
+//
+// }
 
 async function createNewUCRecord(req, res) {
     const newUCRecord = req.body;
@@ -85,8 +88,8 @@ async function findAllUCRecord(req, res) {
 }
 
 async function findUCRecordByUserID(req, res) {
-    const uid = req.query.uid;
-    await dao.findUCRecordByUserID(uid).then(
+    const userID = req.query.userID;
+    await dao.findUCRecordByUserID(userID).then(
         (thisRes) => {
             res.json(thisRes)
         }
@@ -97,13 +100,15 @@ async function deleteUCRecord(req, res) {
     const reaction = req.query.reactionType;
     if (reaction === undefined) {throw "Reactiontype is undefined in deleteUCRecord"}
     const commentID = req.query.commentID;
-    await dao.deleteUCRecord(req.query.uid, req.query.commentID).then(
+    await dao.deleteUCRecord(req.query.userID, req.query.commentID).then(
         async () => {
             // it could be a like or dislike
-            if (reaction === 1) {
+            if (reaction === "1") {
                 await dao.updateComment(commentID, {$inc: {likes: -reaction}})
-            } else {
+            } else if (reaction === "-1") {
                 await dao.updateComment(commentID, {$inc: {dislikes: reaction}})
+            } else {
+                console.log("deleteUCRecord receive invalid reaction type")
             }
             res.sendStatus(200);
         }

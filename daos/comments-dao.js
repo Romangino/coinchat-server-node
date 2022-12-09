@@ -29,3 +29,7 @@ export const updateUCRecord = async (userID, commentID, reaction) => await users
 
 export const deleteUCRecord = async (uid, commentID) => await usersReactCommentModel
     .deleteOne({userID:uid, commentID:commentID})
+
+export const deleteReactionByCommentID = async (commentID) => await usersReactCommentModel.deleteMany(
+    {commentID:commentID}
+)
