@@ -30,14 +30,10 @@ async function findUserByObjectID(req, res) {
     )
 }
 
-async function findUserByAuthorID(req, res) {
-    const authorID = req.query.authorID;
-    await dao.findUserByAuthorID(authorID).then(
-        (thisRes) => {
-            res.json(thisRes)
-        }
-    )
-}
+const findCommentsByAuthorID = async (req, res) =>
+    await dao.findCommentsByAuthorID(req.params.uid)
+        .then(user => res.json(user))
+
 
 async function deleteComment(req, res) {
     const commentID = req.query.commentID;
@@ -58,7 +54,7 @@ const CommentsController = app => {
     app.post("/api/comment", createNewComment)
     app.get("/api/comment/all", findAllComment)
     app.get("/api/comment/object", findUserByObjectID)
-    app.get("/api/comment/author", findUserByAuthorID)
+    app.get("/api/users/:uid/comments", findCommentsByAuthorID)
     app.delete("/api/comment", deleteComment)
     app.put("/api/comment", updateComment)
 
