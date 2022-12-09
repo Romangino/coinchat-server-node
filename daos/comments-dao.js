@@ -11,7 +11,6 @@ export const findCommentByObjectID = async (objId, objType) =>
 
 export const findCommentByAuthorID = async uid => await commentModel.find({authorID: uid});
 
-export const findCommentByCommentID = async commentID => await commentModel.findById(commentID);
 export const findCommentsByAuthorID = async uid => await commentModel.find({authorID: uid});
 
 export const deleteComment = async commentID => await commentModel.deleteOne({_id: commentID});
@@ -25,8 +24,8 @@ export const findAllUCRecord = async () => await usersReactCommentModel.find({})
 
 export const findUCRecordByUserID = async (uid) => await usersReactCommentModel.find({userID:uid})
 
-export const updateUCRecord = async (uid, commentID, reaction) => await usersReactCommentModel
-    .updateOne({userID:uid, commentID:commentID}, {$set: {reactionType: reaction}})
+export const updateUCRecord = async (userID, commentID, reaction) => await usersReactCommentModel
+    .updateOne({userID, commentID}, {$set: {reactionType: reaction}})
 
 export const deleteUCRecord = async (uid, commentID) => await usersReactCommentModel
     .deleteOne({userID:uid, commentID:commentID})

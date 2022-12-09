@@ -64,8 +64,12 @@ async function createNewUCRecord(req, res) {
     const commentID = req.body.commentID;
     const reaction = req.body.reactionType;
     await dao.createNewUCRecord(newUCRecord).then(
-        async (thisRes) => {
-            await dao.updateComment(commentID, {$inc: {likes: reaction}})
+        async () => {
+            if (reaction === 1){
+                await dao.updateComment(commentID, {$inc: {likes: reaction}})
+            } else {
+                await dao.updateComment(commentID, {$inc: {dislikes: -reaction}})
+            }
             res.sendStatus(200);
         }
     )
@@ -89,6 +93,40 @@ async function findUCRecordByUserID(req, res) {
     )
 }
 
+async function deleteUCRecord(req, res) {
+    const reaction = req.query.reactionType;
+    if (reaction === undefined) {throw "Reactiontype is undefined in deleteUCRecord"}
+    const commentID = req.query.commentID;
+    await dao.deleteUCRecord(req.query.uid, req.query.commentID).then(
+        async () => {
+            // it could be a like or dislike
+            if (reaction === 1) {
+                await dao.updateComment(commentID, {$inc: {likes: -reaction}})
+            } else {
+                await dao.updateComment(commentID, {$inc: {dislikes: reaction}})
+            }
+            res.sendStatus(200);
+        }
+    )
+}
+
+async function updateUCRecord(req, res) {
+    // the update logic is accepting the original reaction, and update everything based on that
+    const originalReaction = req.body;
+    const reaction = originalReaction.reactionType;
+    if (reaction !== 1 && reaction !== -1) {console.log("Error, reaction value is invalid: " + reaction)}
+    await dao.updateUCRecord(originalReaction.userID, originalReaction.commentID, -reaction)
+        .then(
+            async (thisRes) => {
+
+                await dao.updateComment(originalReaction.commentID, {$inc: {likes: -reaction}})
+                await dao.updateComment(originalReaction.commentID, {$inc: {dislikes: reaction}})
+
+                res.json(thisRes);
+            }
+    )
+}
+
 const CommentsController = app => {
     app.post("/api/comment", createNewComment)
     app.get("/api/comment/all", findAllComment)
@@ -99,8 +137,10 @@ const CommentsController = app => {
     // app.put("/api/comment", updateComment)
 
     app.post("/api/comment/react", createNewUCRecord)
-    app.get("/api/comment/react/all", findAllUCRecord)
+    app.get("/api/comment/react/all", findAllUCRecord)  // just for test
     app.get("/api/comment/react/uid", findUCRecordByUserID)
+    app.delete("/api/comment/react", deleteUCRecord)
+    app.put("/api/comment/react", updateUCRecord)
 
 }
 
