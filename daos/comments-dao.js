@@ -12,6 +12,7 @@ export const findCommentByObjectID = async (objId, objType) =>
 export const findCommentByAuthorID = async uid => await commentModel.find({authorID: uid});
 
 export const findCommentByCommentID = async commentID => await commentModel.findById(commentID);
+export const findCommentsByAuthorID = async uid => await commentModel.find({authorID: uid});
 
 export const deleteComment = async commentID => await commentModel.deleteOne({_id: commentID});
 
