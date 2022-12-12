@@ -37,16 +37,28 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 mongoose.connect(connectionString, options);
 
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
+app.use(cors(
+    {
+        credentials: true,
+        origin: true
 }));
-app.use(session({
-    secret: 'should be an environment variable',
-    resave: false,
+
+let sess = {
+    secret: process.env.SECRET,
     saveUninitialized: true,
-    cookie: {secure: false}
-}));
+    resave: true,
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
+    }
+}
+
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
 app.use(express.json());
 
 app.get('/',(req, res) =>
