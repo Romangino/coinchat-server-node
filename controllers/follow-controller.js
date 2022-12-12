@@ -1,5 +1,4 @@
 import * as dao from '../daos/follow-dao.js'
-import {findFollowId} from "../daos/follow-dao.js";
 
 const FollowController = (app) => {
     const userFollowsUser = async (req, res) => {
