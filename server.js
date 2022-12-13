@@ -11,6 +11,7 @@ import UsersController from "./controllers/users-controller.js";
 import HomeController  from "./controllers/home-page-controller/home-controller.js";
 import CommentsController from "./controllers/comment-controller.js";
 import FollowController from "./controllers/follow-controller.js";
+import BlogsController from "./controllers/blogs-controller.js";
 
 // Allows a .env file to be created to store environment variables
 dotenv.config()
@@ -72,5 +73,6 @@ WatchlistController(app);
 HomeController(app);
 CommentsController(app);
 FollowController(app);
+BlogsController(app);
 
 app.listen(process.env.PORT || 4000);
