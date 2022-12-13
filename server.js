@@ -11,6 +11,7 @@ import UsersController from "./controllers/users-controller.js";
 import HomeController  from "./controllers/home-page-controller/home-controller.js";
 import CommentsController from "./controllers/comment-controller.js";
 import FollowController from "./controllers/follow-controller.js";
+import BlogsController from "./controllers/blogs-controller.js";
 
 // Allows a .env file to be created to store environment variables
 dotenv.config()
@@ -37,16 +38,28 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 mongoose.connect(connectionString, options);
 
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
+app.use(cors(
+    {
+        credentials: true,
+        origin: true
 }));
-app.use(session({
-    secret: 'should be an environment variable',
-    resave: false,
+
+let sess = {
+    secret: process.env.SECRET,
     saveUninitialized: true,
-    cookie: {secure: false}
-}));
+    resave: true,
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
+    }
+}
+
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
 app.use(express.json());
 
 app.get('/',(req, res) =>
@@ -60,5 +73,6 @@ WatchlistController(app);
 HomeController(app);
 CommentsController(app);
 FollowController(app);
+BlogsController(app);
 
 app.listen(process.env.PORT || 4000);
