@@ -47,9 +47,6 @@ async function deleteComment(req, res) {
     const commentID = req.query.commentID;
     await dao.deleteComment(commentID).then(
         async (thisRes) => {
-            // delete all reaction records pertain to the comment
-            await dao.deleteReactionByCommentID(commentID)
-
             res.json(thisRes)
         }
     ).catch(
