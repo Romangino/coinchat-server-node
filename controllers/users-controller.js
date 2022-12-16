@@ -10,7 +10,7 @@ const UsersController = app => {
         const user = req.body;
         const existingUser = await usersDao.findUserByUsername(user.handle);
         if (existingUser) {  // username not unique -> already existing
-            res.sendStatus(403);  // TODO: handle 403 in client!
+            res.sendStatus(403);
             return;
         } else {
             const currentUser = await usersDao.createUser(user);
